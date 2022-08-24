@@ -1,2 +1,11 @@
 input:
-  rsat_motifs: /home/dakota/Code/urchin_cisTarget/data/jaspar_urochordates_core_and_unvalidated.tf
+  rsat_motifs: data/jaspar_urochordates_core_and_unvalidated.tf
+  gff: /projectnb/bradham/data/ReferenceSequences/wray-genome/L_var_clean.gff
+  sequences: data/grn_genes.txt
+  chr_sizes: data/chrom_sizes.genome
+  genome_fasta: /projectnb/bradham/data/ReferenceSequences/wray-genome/Lvar_genome.fasta
+params:
+  upstream_bp: 5000
+  db_prefix: "lvar_grn_genes_vs_motifs"
+  clusterbuster: 'src/cbust'
+  cisTarget: /projectnb/bradham/workflows/create_cisTarget_databases/create_cistarget_motif_databases.py
