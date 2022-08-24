@@ -9,6 +9,7 @@ rule format_tf_motifs:
     input:
         rsat=config['input']['rsat_motifs']
     output:
-        tfs="output/motifs/motifs_for_clusterbuster.tf"
+        motif_dir=directory('output/motifs'),
+        motif_ids='output/motif_ids.txt'
     script:
-        "scripts/format_rsat_motifs.py"
+        "scripts/format_transfac_motifs.py"
