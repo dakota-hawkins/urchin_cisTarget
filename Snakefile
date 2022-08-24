@@ -10,6 +10,6 @@ rule format_tf_motifs:
         rsat=config['input']['rsat_motifs']
     output:
         motif_dir=directory('output/motifs'),
-        motif_ids='output/motif_ids.txt'
+        motif_ids='output/motifs/motif_ids.txt'
     script:
         "scripts/format_transfac_motifs.py"
