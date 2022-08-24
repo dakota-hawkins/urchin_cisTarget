@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
         assert len(motifs) == len(motif_ids)
         for motif, name in zip(motifs, motif_ids):
-            with open(motif_dir.joinpath(name).with_suffix('.txt'), "w") as f:
+            with open(motif_dir.joinpath(name).with_suffix('.cb'), "w") as f:
                 f.write(motif)
             with open(id_file, "a") as f:
                 f.write(name + '\n')
