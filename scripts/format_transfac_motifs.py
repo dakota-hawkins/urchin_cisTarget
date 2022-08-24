@@ -45,19 +45,16 @@ if __name__ == "__main__":
                         desc = consensus_regex.split(line)[-1]
                     if id_regex.search(line) is not None:
                         motif_ids.append(
-                            id_regex.split(line)[-1]
-                            .replace("/", "_")
-                            .replace(",", ";")
-                            .replace("'", "")
-                            .replace("\n", "_motif\n")
+                            id_regex.split(line)[-1].replace("\n", "_motif")
                         )
                     line = f.readline()
-                motifs.append(">" + desc + matrix)
+                # edge case for last line of the file
+                if line != '':
+                    motifs.append(">" + desc + matrix)
 
-                # line = f.readline()
-
+        assert len(motifs) == len(motif_ids)
         for motif, name in zip(motifs, motif_ids):
-            with open(motif_dir.joinpath(name + ".txt"), "w") as f:
+            with open(motif_dir.joinpath(name).with_suffix('.txt'), "w") as f:
                 f.write(motif)
             with open(id_file, "a") as f:
-                f.write(name)
+                f.write(name + '\n')
