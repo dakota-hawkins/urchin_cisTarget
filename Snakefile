@@ -8,19 +8,20 @@ from pathlib import Path
 
 rule all:
     input:
-        Path("output")
-        .joinpath(config["params"]["db_prefix"])
-        .with_suffix(".rankings.feather"),
+        rvm_rankings=Path("output")
+            .joinpath("databases", config["params"]["db_prefix"])
+            .with_suffix(".regions_vs_motifs.rankings.feather"),
+        rvm_scores=Path("output")
+            .joinpath("databases", config["params"]["db_prefix"])
+            .with_suffix(".regions_vs_motifs.scores.feather"),
+        mvr_scores=Path("output")
+            .joinpath("databases", config["params"]["db_prefix"])
+            .with_suffix(".motifs_vs_regions.scores.feather"),
 
 
-# TODO:
-# extract genomic reads -5kb + full gene model
-# change format_rsat_motifs to write one PWM per file
-# write motif names to separate filesrast
-#  --- is in a sort of TRANSFAC file format, but BIOPython doesn't like
 rule format_tf_motifs:
     input:
-        rsat=config["input"]["rsat_motifs"],
+        rsat=config["input"]["transfac_motifs"],
     output:
         motif_dir=directory("output/motifs"),
         motif_ids="output/motif_ids.txt",
@@ -34,7 +35,7 @@ rule get_chromosome_lengths:
     output:
         "output/sizes.genome",
     shell:
-        "faidx {input.fasta} -i chromsize > {output}"
+        "faidx {input.fasta} -i chromsizes > {output}"
 
 
 rule extract_gene_sequences:
@@ -63,19 +64,22 @@ rule create_database:
         motif_dir="output/motifs",
         motif_ids="output/motif_ids.txt",
     params:
-        prefix=Path("output").joinpath(config["params"]["db_prefix"]),
+        prefix=Path("output").joinpath("databases", config["params"]["db_prefix"]),
         cbust_loc=config["params"]["clusterbuster"],
         cisTarget_loc=config["params"]["cisTarget"],
     conda:
         "envs/create_cistarget_databases.yaml"
     threads: 16
     output:
-        rankings=Path("output")
-        .joinpath(config["params"]["db_prefix"])
-        .with_suffix(".rankings.feather"),
-        scores=Path("output")
-        .joinpath(config["params"]["db_prefix"])
-        .with_suffix(".scores.feather"),
+        rvm_rankings=Path("output")
+            .joinpath("databases", config["params"]["db_prefix"])
+            .with_suffix(".regions_vs_motifs.rankings.feather"),
+        rvm_scores=Path("output")
+            .joinpath("databases", config["params"]["db_prefix"])
+            .with_suffix(".regions_vs_motifs.scores.feather"),
+        mvr_scores=Path("output")
+            .joinpath("databases", config["params"]["db_prefix"])
+            .with_suffix(".motifs_vs_regions.scores.feather"),
     shell:
         """
         {params.cisTarget_loc} -f {input.fasta} -M {input.motif_dir} -m {input.motif_ids} -o {params.prefix} -c {params.cbust_loc} -t {threads}

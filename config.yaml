@@ -6,6 +6,6 @@ input:
   genome_fasta: /projectnb/bradham/data/ReferenceSequences/wray-genome/Lvar_genome.fasta
 params:
   upstream_bp: 5000
-  db_prefix: "lvar_grn_genes_vs_motifs"
+  db_prefix: "lvar_grn_genes"
   clusterbuster: 'src/cbust'
   cisTarget: /projectnb/bradham/workflows/create_cisTarget_databases/create_cistarget_motif_databases.py
