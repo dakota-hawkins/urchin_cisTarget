@@ -1,5 +1,5 @@
 input:
-  rsat_motifs: data/jaspar_urochordates_core_and_unvalidated.tf
+  transfac_motifs: data/jaspar_urochordates_core_and_unvalidated.tf
   gff: /projectnb/bradham/data/ReferenceSequences/wray-genome/L_var_clean.gff
   sequences: data/grn_genes.txt
   chr_sizes: data/chrom_sizes.genome
@@ -9,3 +9,4 @@ params:
   db_prefix: "lvar_grn_genes"
   clusterbuster: 'src/cbust'
   cisTarget: /projectnb/bradham/workflows/create_cisTarget_databases/create_cistarget_motif_databases.py
+  gene_regex: "[A-Z,0-9,\\_].*"

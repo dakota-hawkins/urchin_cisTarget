@@ -1,0 +1,17 @@
+name: create_cistarget_databases
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy=1.21
+  - pandas>=1.4.1
+  - pyarrow>=7.0.0
+  - numba>=0.55.1
+  - python-flatbuffers
+  - ucsc-liftover
+  - ucsc-bigwigaverageoverbed
+  - pyfaidx
+  - bedtools=2.30.0
+  - bedops=2.4.35 
