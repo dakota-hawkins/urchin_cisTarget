@@ -4,7 +4,7 @@ Workflow to generate cisTarget database for urchins
 This is a snakemake workflow to generate a [cisTarget database](https://github.com/aertslab/create_cisTarget_databases) for the SCENIC workflows.
 # Configuration
 
-The workflow assumes access to `bedops`, `bedtools`, `faidx` and a compiled `ClusterBuster`. 
+The workflow assumes access to a compiled `ClusterBuster` binary.
 
 Modify the configuration (`config.yaml`) as appropriate for your data, with the following example entries:
 
