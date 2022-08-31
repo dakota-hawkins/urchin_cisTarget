@@ -14,14 +14,17 @@ rule all:
         mvg_scores=Path("output")
             .joinpath("databases", config["params"]["db_prefix"])
             .with_suffix(".motifs_vs_genes.scores.feather"),
+        motif_table='output/cisTarget_motif2tf.tbl'
 
 
 rule format_tf_motifs:
     input:
-        rsat=config["input"]["transfac_motifs"],
+        rsat=config["input"]["motifs"],
     output:
         motif_dir=directory("output/motifs"),
         motif_ids="output/motif_ids.txt",
+    params:
+        is_jaspar_transfac=False
     script:
         "scripts/format_transfac_motifs.py"
 
@@ -46,7 +49,7 @@ rule extract_gene_sequences:
     params:
         bp=config["params"]["upstream_bp"],
     output:
-        "output/selected_fasta.fa",
+        temp("output/selected_sequences_temp.fa"),
     conda:
         "envs/create_cistarget_databases.yaml"
     shell:
@@ -55,13 +58,22 @@ rule extract_gene_sequences:
         awk '$3=="gene" {{ print }}' | 
         gff2bed | 
         bedtools slop -i stdin -g {input.chr_size} -l {params.bp} -r 0 -s |
-        bedtools getfasta -fi {input.fasta} -bed stdin -nameOnly > {output}
+        bedtools getfasta -fi {input.fasta} -bed stdin -name > {output}
         """
 
+rule rename_sequences:
+    input:
+        fasta="output/selected_sequences_temp.fa",
+        csv=config['input']['id_to_name']
+    output:
+        fasta="output/selected_sequences.fa"
+    script:
+        "scripts/rename_sequences.py"
+    
 
 rule create_database:
     input:
-        fasta="output/selected_fasta.fa",
+        fasta="output/selected_sequences.fa",
         motif_dir="output/motifs",
         motif_ids="output/motif_ids.txt",
     params:
@@ -85,4 +97,13 @@ rule create_database:
     shell:
         "{params.cisTarget_loc} -f {input.fasta} -M {input.motif_dir} "
         "-m {input.motif_ids} -o {params.prefix} -c {params.cbust_loc} "
-        "-t {threads} -g {params.regex}"
+        "-t {threads} -g \"{params.regex}\""
+
+rule create_motif2tf_table:
+    input:
+        motif_dir='output/motifs/',
+        motif2gene=config['input']['motif_to_tf']
+    output:
+        table='output/cisTarget_motif2tf.tbl'
+    script:
+        "scripts/motif2gene.py"
