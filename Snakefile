@@ -86,7 +86,7 @@ rule create_database:
         ),
         cbust_loc=config["params"]["clusterbuster"],
         cisTarget_loc=config["params"]["cisTarget"],
-        regex="#[0-9]+$"
+        regex="#[0-9].*$"
     conda:
         "envs/create_cistarget_databases.yaml"
     threads: 16
