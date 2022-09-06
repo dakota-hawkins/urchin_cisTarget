@@ -36,7 +36,7 @@ ENTRY = [
 
 
 def get_line(row, motif_dir):
-    with open(motif_dir.joinpath(row.matrix_id).with_suffix(".cb")) as mhandle:
+    with open(motif_dir.joinpath(row.matrix_id + ".cb")) as mhandle:
         motif = motifs.read(mhandle, "clusterbuster")
     return (
         "\t".join(ENTRY).format(row.matrix_id, row.base_id, motif.consensus, row.gene)
