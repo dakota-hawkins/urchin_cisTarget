@@ -73,17 +73,20 @@ rule rename_sequences:
     script:
         "scripts/rename_sequences.py"
 
+def get_db_prefix(wc):
+    out =  Path("output").joinpath(
+        "databases", 
+        config["params"]["db_prefix"] + wc.kbp
+    )
+    return out
 
 rule create_database:
     input:
         fasta="output/{kbp}/selected_sequences.fa",
         motif_dir="output/motifs",
-        motif_ids="output/motif_ids.txt",
+        motif_ids="data/motif_ids.txt",
     params:
-        prefix=Path("output").joinpath(
-            "databases", 
-            config["params"]["db_prefix"] + "{kbp}"
-        ),
+        prefix=lambda wc: get_db_prefix(wc),
         cbust_loc=config["params"]["clusterbuster"],
         cisTarget_loc=config["params"]["cisTarget"],
         regex="#[0-9].*$"
