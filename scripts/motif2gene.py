@@ -31,7 +31,7 @@ ENTRY = [
     "1.000000",
     "None",
     "None",
-    "gene is directly annotated",
+    "orthology",
 ]
 
 
