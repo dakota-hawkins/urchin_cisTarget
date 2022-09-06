@@ -72,10 +72,8 @@ rule rename_sequences:
         fasta="output/{kbp}/selected_sequences.fa"
     script:
         "scripts/rename_sequences.py"
-    
 
-# def get_db_prefix(wc):
-#     prefix = wc.
+
 rule create_database:
     input:
         fasta="output/{kbp}/selected_sequences.fa",
@@ -88,7 +86,7 @@ rule create_database:
         ),
         cbust_loc=config["params"]["clusterbuster"],
         cisTarget_loc=config["params"]["cisTarget"],
-        regex=config["params"]['gene_regex']
+        regex="#[0-9]+$"
     conda:
         "envs/create_cistarget_databases.yaml"
     threads: 16
