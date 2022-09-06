@@ -18,10 +18,12 @@ if __name__ == "__main__":
     if snakemake is not None:
         records = list(SeqIO.parse(snakemake.input["fasta"], "fasta"))
         seq_df = pd.read_csv(snakemake.input["csv"])
-        name_counter = {x: 0 for x in seq_df.name.unique()}
+        seq_df["name"] = seq_df.apply(lambda x: set_gene_name(x), axis=1)
+        seq_df.set_index("gene_id", inplace=True)
+        name_counter = {x: 0 for x in seq_df["name"].unique()}
         for each in records:
             gid = each.id.split("::")[0]
-            gene_name = seq_df.loc[gid, "name"]
+            gene_name = seq_df.at[gid, "name"]
             name_counter[gene_name] += 1
             each.id = f"{gene_name}#{name_counter[gene_name]}"
             each.name = f"{gene_name}#{name_counter[gene_name]}"
