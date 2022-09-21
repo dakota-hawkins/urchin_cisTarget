@@ -5,9 +5,12 @@ input:
   chr_sizes: data/chrom_sizes.genome
   genome_fasta: /projectnb/bradham/data/ReferenceSequences/wray-genome/Lvar_genome.fasta
   id_to_name: data/gene_lookup.csv
-  motif_to_tf: data/motif_ids_to_gene.csv
+  motif_to_tf: data/informative_motif_table.csv
+  motif_dir: data/informative_motifs/
+output:
+  dir: output
 params:
   upstream_bp: [2000, 5000]
-  db_prefix: "lvar_grn_genes"
-  clusterbuster: 'src/cbust'
+  db_prefix: lvar_grn_genes
+  clusterbuster: src/cbust
   cisTarget: /projectnb/bradham/workflows/create_cisTarget_databases/create_cistarget_motif_databases.py
