@@ -8,7 +8,7 @@ The workflow assumes access to a compiled `ClusterBuster` binary.
 
 Modify the configuration (`config.yaml`) as appropriate for your data, with the following example entries:
 
-```{yaml}
+```yaml
 input:
   transfac_motifs: data/jaspar_urochordates_core_and_unvalidated.tf  # motifs in the transfact formats
   gff: /projectnb/bradham/data/ReferenceSequences/wray-genome/L_var_clean.gff  # gff file with genome annotations
